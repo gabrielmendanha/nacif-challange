@@ -8,9 +8,14 @@ main = Blueprint('main', __name__)
 @main.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
-    if user and check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity=f'{user.id}')
-        return jsonify(access_token=access_token)
-    return jsonify(message='Invalid credentials'), 401
 
+    if ('password' not in data) or ('username' not in data):
+        return jsonify(message='Missing password or username'), 400
+
+    user = User.query.filter_by(username=data['username']).first()
+
+    if not user or not check_password_hash(user.password, data['password']):
+        return jsonify(message='Invalid password or username'), 401
+
+    access_token = create_access_token(identity=f'{user.id}')
+    return jsonify(access_token=access_token)
