@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import LoginPage from "./pages/login";
 import Todos from "./pages/todos";
-import {UserProvider} from "./hooks/useUser.tsx";
+import { UserProvider } from "./hooks/useUser.tsx";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -9,7 +10,9 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<LoginPage />} />
-              <Route path="/todos" element={<Todos />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/todos" element={<Todos />} />
+                </Route>
             </Routes>
           </BrowserRouter>
       </UserProvider>
