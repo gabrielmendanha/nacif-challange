@@ -18,7 +18,7 @@ A simple CRUD application with JWT authentication built using Flask, SQLAlchemy,
 ## ⚙️ Run
 
 ```bash
-$ ./startup.sh
+$ ./start.sh
 ```
 
 Open http://localhost:8001 on your favourite browser
