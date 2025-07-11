@@ -4,9 +4,11 @@ from .routes import main
 from .extensions import db, jwt
 from .models import User
 from werkzeug.security import generate_password_hash
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
     app.config['JWT_SECRET_KEY'] = os.urandom(24)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
