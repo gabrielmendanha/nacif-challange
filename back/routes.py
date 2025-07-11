@@ -18,7 +18,7 @@ def login():
     if not user or not check_password_hash(user.password, data['password']):
         return jsonify(message='Invalid password or username'), 401
 
-    access_token = create_access_token(identity=f'{user.id}')
+    access_token = create_access_token(identity=f'{user.username}')
     return jsonify(access_token=access_token)
 
 @main.route('/todos', methods=['GET'])
@@ -48,7 +48,11 @@ def create_todo():
 @jwt_required()
 def update_todo(todo_id):
     user_id = get_jwt_identity()
-    todo = Todo.query.filter_by(id=todo_id, user_id=user_id).first_or_404()
+    todo = Todo.query.filter_by(id=todo_id, user_id=user_id).first()
+
+    if not todo:
+        return jsonify(message='Todo does not exist or not allowed for this user'), 400
+
     data = request.get_json()
     todo.title = data.get('title', todo.title)
     todo.completed = data.get('completed', todo.completed)
@@ -62,7 +66,7 @@ def delete_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id, user_id=user_id).first()
 
     if not todo:
-        return jsonify(message='Todo does not exist'), 400
+        return jsonify(message='Todo does not exist or not allowed for this user'), 400
 
     db.session.delete(todo)
     db.session.commit()
