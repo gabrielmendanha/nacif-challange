@@ -4,6 +4,8 @@ import { Card } from "./components/Card";
 import { Edit } from "./components/Edit";
 import { Create } from "./components/Create";
 import AddIcon from "@mui/icons-material/Add";
+import LogoutIcon from "@mui/icons-material/Logout";
+import {useUser} from "../../hooks/useUser.tsx";
 
 const Todos = () => {
 
@@ -20,6 +22,8 @@ const Todos = () => {
         handleOpenCreateModal,
         handleOpenEditModal,
     } = useTodos();
+
+    const { actions: { logout } } = useUser();
 
     return (
         <Box display={'flex'} gap={'12px'} flexDirection={'column'} alignItems={'center'} width={'100vw'}>
@@ -51,9 +55,15 @@ const Todos = () => {
                 <Create isOpen={displayCreateModal}
                         handleClose={handleCloseCreateModal} handleCreate={handleCreate} />
             </Box>
-            <IconButton color={"primary"} onClick={() => handleOpenCreateModal()}>
-                <AddIcon />
-            </IconButton>
+            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                <IconButton color={"primary"} onClick={() => handleOpenCreateModal()}>
+                    <AddIcon />
+                </IconButton>
+                <IconButton color={"secondary"} onClick={logout}>
+                    <LogoutIcon />
+                </IconButton>
+            </Box>
+
         </Box>
     )
 }
