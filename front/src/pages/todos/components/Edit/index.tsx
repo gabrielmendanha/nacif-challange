@@ -44,7 +44,7 @@ export const Edit = ({ isOpen, handleClose, handleUpdate, todo }: EditProps) => 
                         <IconButton color="error" onClick={handleClose}>
                             <CloseIcon />
                         </IconButton>
-                        <IconButton color="primary" onClick={() => handleUpdate(editingTodo)}>
+                        <IconButton color="primary" onClick={() => handleUpdate({ ...todo, ...editingTodo })}>
                             <SaveIcon />
                         </IconButton>
                     </Box>
